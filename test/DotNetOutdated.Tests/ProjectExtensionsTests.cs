@@ -126,7 +126,7 @@ public static class ProjectExtensionsTests
             ProjectFilePath = file.Path,
         };
 
-        await File.WriteAllTextAsync(file.Path, contents);
+        await File.WriteAllTextAsync(file.Path, contents).ConfigureAwait(true);
 
         // Act
         var actual = project.IsProjectSdkStyle();

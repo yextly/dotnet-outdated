@@ -194,8 +194,8 @@ namespace DotNetOutdated
             var projectLists = new ConcurrentBag<List<Project>>();
             await Parallel.ForEachAsync(projectPaths, async (path, _) =>
             {
-                projectLists.Add(await _projectAnalysisService.AnalyzeProjectAsync(path, false, Transitive, TransitiveDepth, Runtime));
-            });
+                projectLists.Add(await _projectAnalysisService.AnalyzeProjectAsync(path, false, Transitive, TransitiveDepth, Runtime).ConfigureAwait(false));
+            }).ConfigureAwait(false);
 
             var projects = projectLists.SelectMany(p => p).ToList();
 
@@ -217,7 +217,7 @@ namespace DotNetOutdated
                }
 
                // Output report file
-               await GenerateOutputFile(outdatedProjects);
+               await GenerateOutputFile(outdatedProjects).ConfigureAwait(false);
 
                if (FailOnUpdates)
                   return 2;
@@ -419,7 +419,7 @@ namespace DotNetOutdated
 
          console.WriteLine("Analyzing dependencies...");
 
-         await Parallel.ForEachAsync(projects, async (project, _) => await AddOutdatedProjectsIfNeeded(project, outdatedProjects));
+         await Parallel.ForEachAsync(projects, async (project, _) => await AddOutdatedProjectsIfNeeded(project, outdatedProjects).ConfigureAwait(false)).ConfigureAwait(false);
 
          return outdatedProjects
              .OrderBy(p => p.Name)

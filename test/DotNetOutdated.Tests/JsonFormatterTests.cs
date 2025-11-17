@@ -38,7 +38,7 @@ public class JsonFormatterTests
         ];
         
         var json = new JsonFormatter();
-        await json.FormatAsync(analyzedProjects, textWriter);
+        await json.FormatAsync(analyzedProjects, textWriter).ConfigureAwait(true);
 
         const string expectedReport =
           """

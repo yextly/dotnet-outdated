@@ -89,7 +89,7 @@ namespace DotNetOutdated.Tests
         public async Task ResolvesVersionCorrectly(string current, VersionLock versionLock, PrereleaseReporting prerelease, string latest)
         {
             // Act
-            var latestVersion = await _nuGetPackageResolutionService.ResolvePackageVersions(_packageName1, NuGetVersion.Parse(current), new List<Uri>(), VersionRange.Parse(current), versionLock, prerelease, null, null, null, false, 0);
+            var latestVersion = await _nuGetPackageResolutionService.ResolvePackageVersions(_packageName1, NuGetVersion.Parse(current), new List<Uri>(), VersionRange.Parse(current), versionLock, prerelease, null, null, null, false, 0).ConfigureAwait(true);
 
             // Assert
             Assert.Equal(NuGetVersion.Parse(latest), latestVersion);
@@ -131,7 +131,7 @@ namespace DotNetOutdated.Tests
         public async Task ResolvesVersionCorrectlyWithParts(string current, VersionLock versionLock, PrereleaseReporting prerelease, string prereleaseLabel, string latest)
         {
             // Act
-            var latestVersion = await _nuGetPackageResolutionService.ResolvePackageVersions(_packageName2, NuGetVersion.Parse(current), new List<Uri>(), VersionRange.Parse(current), versionLock, prerelease, prereleaseLabel, null, null, false, 0);
+            var latestVersion = await _nuGetPackageResolutionService.ResolvePackageVersions(_packageName2, NuGetVersion.Parse(current), new List<Uri>(), VersionRange.Parse(current), versionLock, prerelease, prereleaseLabel, null, null, false, 0).ConfigureAwait(true);
 
             // Assert
             Assert.Equal(NuGetVersion.Parse(latest), latestVersion);
@@ -173,7 +173,7 @@ namespace DotNetOutdated.Tests
         public async Task ResolvesVersionCorrectlyIfPackageIsLatest(string current, VersionLock versionLock, PrereleaseReporting prerelease, string prereleaseLabel)
         {
             // Act
-            var latestVersion = await _nuGetPackageResolutionService.ResolvePackageVersions(_packageName3, NuGetVersion.Parse(current), new List<Uri>(), VersionRange.Parse(current), versionLock, prerelease, prereleaseLabel, null, null, false, 0);
+            var latestVersion = await _nuGetPackageResolutionService.ResolvePackageVersions(_packageName3, NuGetVersion.Parse(current), new List<Uri>(), VersionRange.Parse(current), versionLock, prerelease, prereleaseLabel, null, null, false, 0).ConfigureAwait(true);
 
             // Assert
             Assert.Equal(NuGetVersion.Parse(current), latestVersion);
