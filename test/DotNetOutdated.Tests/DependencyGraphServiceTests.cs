@@ -41,7 +41,7 @@ namespace DotNetOutdated.Tests
             var graphService = new DependencyGraphService(dotNetRunner, mockFileSystem);
 
             // Act
-            var dependencyGraph = await graphService.GenerateDependencyGraphAsync(_path, string.Empty);
+            var dependencyGraph = await graphService.GenerateDependencyGraphAsync(_path, string.Empty).ConfigureAwait(true);
 
             // Assert
             Assert.NotNull(dependencyGraph);
@@ -63,7 +63,7 @@ namespace DotNetOutdated.Tests
             var graphService = new DependencyGraphService(dotNetRunner, mockFileSystem);
 
             // Assert
-            await Assert.ThrowsAsync<CommandValidationException>(() => graphService.GenerateDependencyGraphAsync(_path, string.Empty));
+            await Assert.ThrowsAsync<CommandValidationException>(() => graphService.GenerateDependencyGraphAsync(_path, string.Empty)).ConfigureAwait(true);
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace DotNetOutdated.Tests
             var graphService = new DependencyGraphService(dotNetRunner, mockFileSystem);
 
             // Act
-            var dependencyGraph = await graphService.GenerateDependencyGraphAsync(_solutionPath, string.Empty);
+            var dependencyGraph = await graphService.GenerateDependencyGraphAsync(_solutionPath, string.Empty).ConfigureAwait(true);
 
             // Assert
             Assert.NotNull(dependencyGraph);
