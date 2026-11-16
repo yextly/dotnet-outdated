@@ -28,17 +28,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4.3.0
+        uses: actions/setup-dotnet@v6.1.0
         with:
-          dotnet-version: | 
-            8.0.x
-            9.0.x
+          dotnet-version: |
             10.0.x
+            11.0.x
 
       # The tests should have already been run during the PR workflow, so this is really just a sanity check
       - name: Tests
@@ -57,9 +57,15 @@ jobs:
           dotnet build --configuration Release
           dotnet pack --configuration Release /p:Version=$VERSION /p:PackageOutputPath=$OUTPUT
 
+      - name: NuGet login
+        id: nuget_login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Publish package
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
         run: |
           dotnet nuget push --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" ${{ steps.package_release.outputs.core_package_filename }}
           # dotnet nuget push --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" ${{ steps.package_release.outputs.tool_package_filename }}
